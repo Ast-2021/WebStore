@@ -1,7 +1,13 @@
 from django.db import models
 
 
-class Product(models.Model):
+class BaseModel(models.Model):
+    objects = models.Manager()
+    class Meta:
+        abstract = True
+
+
+class Product(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
@@ -13,7 +19,7 @@ class Product(models.Model):
         return self.title
 
 
-class Category(models.Model):
+class Category(BaseModel):
     title = models.CharField(max_length=255)
 
     def __str__(self):

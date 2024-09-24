@@ -2,10 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
     author = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -22,17 +21,10 @@ class Category(models.Model):
         return self.title
 
 
-class User(models.Model):
-
-    REQUIRED_FIELDS = ('user',)
-    USERNAME_FIELD = 'email'
-    is_anonymous = ''
-    is_authenticated = ''
-
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
+class User(AbstractUser):
     photo = models.ImageField(upload_to='users/%Y/%m/%d', null=True, verbose_name='Фотография', default='users/standard_avatar.png')
-    password = models.CharField(max_length=55)
+    date_birth = models.DateTimeField(blank=True, null=True, verbose_name='Дата рождения')
+
 
 
     

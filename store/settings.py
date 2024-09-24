@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'project_first_db',
+        'NAME': 'first_project_db',
         'USER': 'django_user',
         'PASSWORD': 'ljvf',
         'HOST': '127.0.0.1',
@@ -160,3 +160,5 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'sale.User'

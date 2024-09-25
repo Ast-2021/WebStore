@@ -10,9 +10,19 @@
 <body>
 <ul>
     {% for product in products %}
-    <li>{{ product }}</li>
+    <li><a href="{% url 'page_product' product.pk %}">{{ product.title }}</a></li>
     {% endfor %}
 </ul>
+
+{% if request.user.is_authenticated %}
+<a href="{% url 'create_product' %}">Создать товар</a>
+<a href="{% url 'logout' %}">Выйти</a>
+
+{% else %}
+<a href="{% url 'register' %}">Регистрация</a>
+<a href="{% url 'login' %}">Авторизация</a>
+{% endif %}
+
 </body>
 </html>
 

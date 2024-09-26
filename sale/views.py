@@ -11,10 +11,13 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 
+import re
+
 
 def index(request):
     products = Product.objects.all()
-    context = {'products': products}
+    categories = Category.objects.all()
+    context = {'products': products, 'categories': categories}
     return render(request, 'sale/index.html', context)
 
 
@@ -89,3 +92,18 @@ def update_product(request, prod_pk):
             return redirect('home')
     context = {'form': form}
     return render(request, 'sale/update_product.html', context=context)
+
+
+def category_page(request, cat_pk):
+    categories = Category.objects.all()
+    category = Category.objects.get(pk=cat_pk)
+    products = Product.objects.filter(category=category)
+    context = {'products': products, 'categories': categories}
+    return render(request, 'sale/index.html', context=context)
+
+
+def form_search(request):
+    search = request.POST.get('search')
+    products = Product.objects.filter(title=search)
+    context = {'products': products}
+    return render(request, 'sale/index.html', context=context)

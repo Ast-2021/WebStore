@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ product.title }}</title>
 </head>
 <body>
     <h2>{{ product.title }}</h2>
     <p>Продавец: {{ product.author }}</p>
     {% if product.image %}
-        {{ product.image }}
+        <img src="{{ product.image.url }}" alt="">
     {% endif %}
     <p>Категория: {{ product.category }}</p>
+    <p>Описание:</p>
     <p>{{ product.description }}</p>
+    <p>Телефон: +{{ product.phone_number }}</p>
+    <p>Цена: {{ product.price }} руб.</p>
     <p>{{ product.date }}</p>
     {% if request.user == product.author %}
         <a href="{% url 'delete_product' product.pk %}">Delete</a>

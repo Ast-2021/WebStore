@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from .models import Product, Category
 from .forms import CreateProductForm
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
@@ -21,9 +21,11 @@ def index(request):
 @login_required
 def create_product(request):
     if request.method == 'POST':
-        form = CreateProductForm(request.POST)
+        form = CreateProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            new_product = form.save()
+            new_product.author = request.user
+            new_product.save()
             return redirect('/')
     else:  
         form = CreateProductForm()

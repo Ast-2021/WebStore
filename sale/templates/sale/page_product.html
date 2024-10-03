@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.title }}</title>
-</head>
-<body>
-    <h2>{{ product.title }}</h2>
+{% extends 'sale/base.html' %}
+
+
+{% block body %}
+<h2>{{ product.title }}</h2>
     <p>Продавец: {{ product.author }}</p>
     {% if product.image %}
         <img src="{{ product.image.url }}" alt="">
@@ -21,5 +17,4 @@
         <a href="{% url 'delete_product' product.pk %}">Delete</a>
         <a href="{% url 'update_product' product.pk %}">Update</a>
     {% endif %}
-</body>
-</html>
+{% endblock %}

@@ -1,17 +1,15 @@
 
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from .models import Product, Category
 from .forms import CreateProductForm
-from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
 
-import re
 
 
 def index(request):
@@ -21,7 +19,7 @@ def index(request):
     return render(request, 'sale/index.html', context)
 
 
-@login_required
+@login_required(login_url='login')
 def create_product(request):
     if request.method == 'POST':
         form = CreateProductForm(request.POST, request.FILES)
@@ -29,10 +27,9 @@ def create_product(request):
             new_product = form.save()
             new_product.author = request.user
             new_product.save()
-            return redirect('/')
+            return redirect('home')
     else:  
         form = CreateProductForm()
-
     context = {'form': form}
     return render(request, 'sale/create_product.html', context=context)
 
@@ -43,26 +40,37 @@ def page_product(request, prod_pk):
     return render(request, 'sale/page_product.html', context=context)
 
 
-class RegisterUser(CreateView):
-    form_class = UserCreationForm
-    template_name = 'sale/register.html'
-    success_url = reverse_lazy('home')
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('home')
-
-
-class LoginUser(LoginView):
-    form_class = AuthenticationForm
-    template_name = 'sale/login.html'
-
-    def get_success_url(self):
-        return reverse_lazy('home')
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    form = UserCreationForm()
+    return render(request, 'sale/register.html', {'form': form})
 
 
-def user_logout(request):
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username,password=password)
+        if user:
+            if user.is_active:
+                login(request,user)
+                return redirect('home')
+        else:
+            messages.error(request,'username or password not correct')
+        return render(request, 'sale/login.html', {'form':form})
+        
+                
+    else:
+        form = AuthenticationForm()
+    return render(request, 'sale/login.html', {'form':form})
+
+
+def logout_view(request):
     logout(request)
     return redirect('home')
 
@@ -78,15 +86,18 @@ def update_product(request, prod_pk):
         'title': product.title,
         'description': product.description,
         'category': product.category,
-        'author': product.author
+        'author': product.author,
+        'phone_number': product.phone_number,
+        'price': product.price
     })
     if request.method == 'POST':
         if form.is_valid():
-            print('andand', request.POST['category'])
             product.title = request.POST['title']
             product.description = request.POST['description']
             product.category = Category.objects.get(pk=request.POST['category'])
             product.author = User.objects.get(pk=request.POST['author'])
+            product.phone_number = request.POST['phone_number']
+            product.price = request.POST['price']
             product.save()
 
             return redirect('home')

@@ -3,12 +3,12 @@
 
 {% block body %}
 <form action="{% url 'create_product' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    {% csrf_token %}
 
-        <table>
-            {{ form.as_table }}
-        </table>
-        <br>
-        <button type="submit">Create</button>
-    </form>
+    <table>
+        {{ form.as_table }}
+    </table>
+    <br>
+    <button type="submit">Create</button>
+</form>
 {% endblock %}

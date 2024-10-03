@@ -11,11 +11,19 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
 
+menu = [
+    {'title': 'Home', 'url_name': 'home'},
+    {'title': 'Опубликовать товар', 'url_name': 'create_product'},
+    {'title': 'Регистрация', 'url_name': 'register'},
+    {'title': 'Авторизация', 'url_name': 'login'},
+    {'title': 'Выйти', 'url_name': 'logout'},
+]
+
 
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.all()
-    context = {'products': products, 'categories': categories}
+    context = {'products': products, 'categories': categories, 'menu': menu}
     return render(request, 'sale/index.html', context)
 
 

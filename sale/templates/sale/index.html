@@ -8,13 +8,7 @@
     <input type="text" name="search">
     <button type="submit">Поиск</button>
 </form>
-<h3>Категории</h3>
-<ul>
-    <li><a href="{% url 'home' %}">Все товары</a></li>
-    {% for category in categories %}
-    <li><a href="{% url 'category' category.pk %}">{{ category.title }}</a></li>
-    {% endfor %}
-</ul>
+
 <h3>Товар</h3>
 <ul>
     {% for product in products %}
@@ -22,25 +16,4 @@
     {% endfor %}
 </ul>
 
-<h3>Меню</h3>
-<ul>
-    {% if request.user.is_authenticated %}
-    <li>
-        <a href="{% url 'create_product' %}">Опубликовать товар</a>
-    </li>
-    <li>
-        <a href="{% url 'logout' %}">Выйти</a>
-    </li>
-    {% else %}
-    <li>
-        <a href="{% url 'register' %}">Регистрация</a>
-    </li>
-    <li>
-        <a href="{% url 'login' %}">Авторизация</a>
-    </li>
-    {% endif %}
-</ul>
-
 {% endblock %}
-
-

@@ -52,8 +52,8 @@ class TestViews(TestCase):
         response = self.client.post(self.url_create_product, {
             'title': 'test_product_2', 
             'description': 'hi',
-            'author': '3', 
-            'category': '4',
+            'author': str(self.user.pk), 
+            'category': str(self.category.pk),
             'phone_number': '79999999999',
             'price': '24900',
             })
@@ -68,8 +68,8 @@ class TestViews(TestCase):
         response = self.client.post(self.url_update_product, {
             'title': 'Update_test_title',
             'description': 'welcome', 
-            'author': '13', 
-            'category': '23',
+            'author': str(self.user.pk), 
+            'category': str(self.category.pk),
             'phone_number': '79999999999',
             'price': '1000000',
             })

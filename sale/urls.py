@@ -14,6 +14,9 @@ urlpatterns = [
     path('delete_product/<int:prod_pk>', delete_product, name='delete_product'),
     path('update/<int:prod_pk>', update_product, name='update_product'),
     path('category/<int:cat_pk>', category_page, name='category'),
-    path('form_search/', form_search, name='form_search')
+    path('form_search/', form_search, name='form_search'),
+    path('help', help_view, name='help'),
+    path('about', help_view, name='about'),
+    path('user_page', user_page, name='user_page')
 ]
 

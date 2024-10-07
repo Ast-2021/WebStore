@@ -1,21 +1,26 @@
 {% extends 'sale/base.html' %} {% block body %}
 
+<div class="page-product">
+    <h1>{{ product.title }}</h1>
+    <p><b>Продавец</b>: {{ product.author }}</p>
+    
+    {% if product.image %}
+        <img class="image-product" src="{{ product.image.url }}" alt="image">
+    {% else %}
+        <img class="image-product" src="/media/images/no-image.jpg" alt="image">
+    {% endif %}
+    
+    <p><h2>Категория</h2>{{ product.category }}</p>
+    <h2>Описание</h2>
+    <p>{{ product.description|linebreaks }}</p>
+    <p><h2>Телефон</h2>+{{ product.phone_number }}</p>
+    <p><h2>Цена</h2> {{ product.price }} руб.</p>
+    <p>{{ product.date }}</p>
+    
+    {% if request.user == product.author %}
+        <a href="{% url 'delete_product' product.pk %}">Delete</a>
+        <a href="{% url 'update_product' product.pk %}">Update</a>
+    {% endif %} 
+</div>
 
-<h2>{{ product.title }}</h2>
-<p>Продавец: {{ product.author }}</p>
-
-{% if product.image %}
-    <img src="{{ product.image.url }}" alt="" />
-{% endif %}
-
-<p>Категория: {{ product.category }}</p>
-<p>Описание:</p>
-<p>{{ product.description }}</p>
-<p>Телефон: +{{ product.phone_number }}</p>
-<p>Цена: {{ product.price }} руб.</p>
-<p>{{ product.date }}</p>
-
-{% if request.user == product.author %}
-    <a href="{% url 'delete_product' product.pk %}">Delete</a>
-    <a href="{% url 'update_product' product.pk %}">Update</a>
-{% endif %} {% endblock %}
+{% endblock %}

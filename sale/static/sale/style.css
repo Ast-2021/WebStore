@@ -1,30 +1,170 @@
+
+.page {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+
+body {
+    margin: 0px;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+b {
+    color: black;
+}
+
+p {
+    color: black;
+}
+
 .top-bar {
+    height: 6vh;
     display: flex;
+    background-color: #0d6efd;
     justify-content: space-between;
-    background-color: gray;
 }
 
 .top-bar>ul {
     display: flex;
-    list-style: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 .top-bar>ul>li {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.top-bar>ul>li:hover {
+    background-color: blue;
+}
+
+.top-bar>ul>li>a {
     display: block;
-    padding: 10px;
+    color: white;
+    font-size: 23px;
 }
 
 .content {
     display: flex;
 }
 
-.navigation-bar {
-    width: 15%;
-    background-color: beige;
+.side-bar {
+    width: 12%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.side-bar>ul {
+    display: block;
+    padding: 0px;
+}
+
+.side-bar>ul>li {
+    display: block;
+}
+
+.side-bar>ul>li>a {
+    display: block;
+    padding: 20px;
+    text-align: center;
+}
+
+.side-bar>ul>li>a {
+    color: black;
+    font-size: 20px;
+}
+
+.side-bar>ul>li>a:hover {
+    background-color: #0d6efd;
+    color: white;
 }
 
 .main-content {
-    width: 75%;
-    padding-left: 30px;
-    background-color: blanchedalmond;
+    width: 78%;
+}
+
+.product {
+    display: flex;
+    height: 150px;
+    width: 1000px;
+    margin: 30px;
+}
+
+.image-product {
+    height: 170px;
+    width: 170px;
+}
+
+.image-product>img {
+    max-width: 100%;
+    max-height: 130px;
+    min-width: 170px;
+}
+
+.description-product {
+    margin-left: 20px;
+    overflow: hidden;
+}
+
+.description-product>h2 {
+    margin-bottom: 7px;
+    margin-top: 0px;
+    color: rgb(80, 170, 255);
+}
+
+.description-product>p {
+    margin-top: 7px;
+}
+
+.page-product {
+    margin: 30px;
+}
+
+.page-product>img {
+    height: 400px;
+    width: auto;
+}
+
+.form-login {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+}
+
+.form-register {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+}
+
+.help-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
+}
+
+.user-page {
+    display: flex;
+    justify-content: center;
+}
+
+.index-page {
+    display: flex;
+    justify-content: center;    
 }

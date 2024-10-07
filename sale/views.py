@@ -7,23 +7,16 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from .forms import *
 
 from django.contrib.auth.decorators import login_required
 
-
-menu = [
-    {'title': 'Home', 'url_name': 'home'},
-    {'title': 'Опубликовать товар', 'url_name': 'create_product'},
-    {'title': 'Регистрация', 'url_name': 'register'},
-    {'title': 'Авторизация', 'url_name': 'login'},
-    {'title': 'Выйти', 'url_name': 'logout'},
-]
 
 
 def index(request):
     products = Product.objects.all()
     categories = Category.objects.all()
-    context = {'products': products, 'categories': categories, 'menu': menu}
+    context = {'products': products, 'categories': categories}
     return render(request, 'sale/index.html', context)
 
 
@@ -38,24 +31,28 @@ def create_product(request):
             return redirect('home')
     else:  
         form = CreateProductForm()
-    context = {'form': form}
+    categories = Category.objects.all()
+    context = {'form': form, 'categories': categories}
     return render(request, 'sale/create_product.html', context=context)
 
 
 def page_product(request, prod_pk):
     product = Product.objects.get(pk=prod_pk)
-    context = {'product': product}
+    categories = Category.objects.all()
+    context = {'product': product, 'categories': categories}
     return render(request, 'sale/page_product.html', context=context)
 
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
-    form = UserCreationForm()
-    return render(request, 'sale/register.html', {'form': form})
+    form = MyUserCreationForm()
+    categories = Category.objects.all()
+    context = {'form': form, 'categories': categories}
+    return render(request, 'sale/register.html', context=context)
 
 
 def login_view(request):
@@ -75,7 +72,9 @@ def login_view(request):
                 
     else:
         form = AuthenticationForm()
-    return render(request, 'sale/login.html', {'form':form})
+    categories = Category.objects.all()
+    context = {'form': form, 'categories': categories}
+    return render(request, 'sale/login.html', context=context)
 
 
 def logout_view(request):
@@ -109,7 +108,8 @@ def update_product(request, prod_pk):
             product.save()
 
             return redirect('home')
-    context = {'form': form}
+    categories = Category.objects.all()
+    context = {'form': form, 'categories': categories}
     return render(request, 'sale/update_product.html', context=context)
 
 
@@ -124,5 +124,19 @@ def category_page(request, cat_pk):
 def form_search(request):
     search = request.POST.get('search')
     products = Product.objects.filter(title=search)
-    context = {'products': products}
+    categories = Category.objects.all()
+    context = {'products': products, 'categories': categories}
     return render(request, 'sale/index.html', context=context)
+
+
+def help_view(request):
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, 'sale/help.html', context=context)
+
+
+def user_page(request):
+    products = Product.objects.filter(author=request.user)
+    categories = Category.objects.all()
+    context = {'categories': categories, 'products': products}
+    return render(request, 'sale/user_page.html', context=context)

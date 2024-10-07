@@ -1,9 +1,13 @@
-{% extends 'sale/base.html' %}
-
+{% extends 'sale/base.html' %} 
 
 {% block body %}
-<div class="index-page">
+
+<div class="user-page">
     <div class="center-box">
+        <h2>{{request.user.username}}</h2>
+        <h2>Опубликованные товары:</h2>
+        
+        {% if products %}
         <ul>
             {% for product in products %}
             <li>
@@ -25,6 +29,10 @@
             </li>
             {% endfor %}
         </ul>
+        {% else %}
+        <p>Вы ничего не публиковали</p>
+        {% endif %}
     </div>
 </div>
+
 {% endblock %}
